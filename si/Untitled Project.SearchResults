@@ -1,4 +1,2 @@
----- force_format Matches (2 in 1 files) ----
-
-Farmerbuffer_v4l2.c (c:\users\jcgong\desktop\v4l2_operation_lib\v4l2_operation_lib):static int              force_format=false;  
-Farmerbuffer_v4l2.c (c:\users\jcgong\desktop\v4l2_operation_lib\v4l2_operation_lib):    if (force_format)   
+---- jc_v4l2_query_current_input_standard Matches (1 in 1 files) ----
+V4l2_operation_lib.c (y:\v4l2_lib):jc_v4l2_query_current_input_standard(int fd, u32 index)

@@ -63,7 +63,8 @@ int jc_v4l2_get_input_index(int fd, u32 *index);
 int jc_v4l2_set_input_index(int fd, u32 index);
 int jc_v4l2_get_output_index(int fd, u32 *index);
 int jc_v4l2_set_output_index(int fd, u32 index);
-
+void jc_v4l2_query_current_input_standard(int fd, u32 index);
+int enum_frame_formats(int fd);
 
 
 

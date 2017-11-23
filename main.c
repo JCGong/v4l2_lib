@@ -34,6 +34,7 @@ int buf_count = 4;
  
 int main (int argc,char **argv)
 {	
+	struct v4l2_rect rect;
 	struct mjpeg_size_t size;
 	if (argc < 2)
 	{
@@ -51,12 +52,24 @@ int main (int argc,char **argv)
 	//查询设置支持的操作
 	jc_v4l2_query_capability_info(fd);
 	//查询设备支持的帧格式
-	jc_v4l2_query_support_image_format(fd);
+	//jc_v4l2_query_support_image_format(fd);
+	enum_frame_formats(fd);
+	jc_v4l2_pixelformat_is_support(fd,V4L2_PIX_FMT_MJPEG);
+	jc_v4l2_pixelformat_is_support(fd,V4L2_PIX_FMT_YUYV);
+	jc_v4l2_pixelformat_is_support(fd,V4L2_PIX_FMT_JPEG);
+	jc_v4l2_pixelformat_is_support(fd,V4L2_PIX_FMT_YVYU);
 	//查询设备数据流信息
 	jc_v4l2_query_stream_info(fd);
+	
 	//查询设备图像裁剪信息
-	jc_v4l2_query_corpcap_info(fd);
+	//jc_v4l2_query_corpcap_info(fd);
+	//jc_v4l2_set_crop_default(fd);
+	//jc_v4l2_get_crop_para(fd,&rect);
+	//rect.height = 500;
+	//rect.width = 200;
+	//jc_v4l2_get_crop_para(fd, &rect);
 
+	
 	//设置捕获mjpeg图像
 	jc_v4l2_set_mjpeg_pixelformat(fd, mjpeg_size.width, mjpeg_size.height);
 	jc_v4l2_get_mjpeg_pixelformat(fd, &size.width, &size.height);
@@ -76,7 +89,7 @@ int main (int argc,char **argv)
 	jc_v4l2_stop_capturing(fd);
 	
 	//删除内存映射
-	jc_v4l2_uninit_mmap(buf_count, buffers);
+	//jc_v4l2_uninit_mmap(buf_count, buffers);
 	//关闭video 设备
 	jc_v4l2_close(fd);
 	close(file_fd);
