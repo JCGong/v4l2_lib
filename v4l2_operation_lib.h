@@ -29,7 +29,8 @@ typedef unsigned int  u32;
 #define JC_SUCCESS   1
 #define JC_YES 1
 #define JC_NO 0
-
+#define WIDTH 320
+#define HEIGHT 240
 
 #define CLEAR(x) memset(&(x), 0, sizeof(x))
 
@@ -65,6 +66,7 @@ int jc_v4l2_get_output_index(int fd, u32 *index);
 int jc_v4l2_set_output_index(int fd, u32 index);
 void jc_v4l2_query_current_input_standard(int fd, u32 index);
 int enum_frame_formats(int fd);
+void yuyv_to_rgb(unsigned char* yuv,unsigned char* rgb);
 
 
 

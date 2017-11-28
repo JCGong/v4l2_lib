@@ -25,7 +25,7 @@ struct mjpeg_size_t
 };
 
 struct buffer *buffers;
-struct mjpeg_size_t mjpeg_size = {320,240};
+struct mjpeg_size_t mjpeg_size = {640,480};
 
 int file_fd = 0;
 int fd = 0;
@@ -53,11 +53,12 @@ int main (int argc,char **argv)
 	jc_v4l2_query_capability_info(fd);
 	//查询设备支持的帧格式
 	//jc_v4l2_query_support_image_format(fd);
-	enum_frame_formats(fd);
+	//enum_frame_formats(fd);
 	jc_v4l2_pixelformat_is_support(fd,V4L2_PIX_FMT_MJPEG);
 	jc_v4l2_pixelformat_is_support(fd,V4L2_PIX_FMT_YUYV);
 	jc_v4l2_pixelformat_is_support(fd,V4L2_PIX_FMT_JPEG);
-	jc_v4l2_pixelformat_is_support(fd,V4L2_PIX_FMT_YVYU);
+	jc_v4l2_pixelformat_is_support(fd,V4L2_PIX_FMT_YUYV);
+	jc_v4l2_pixelformat_is_support(fd,V4L2_PIX_FMT_YVU420);
 	//查询设备数据流信息
 	jc_v4l2_query_stream_info(fd);
 	

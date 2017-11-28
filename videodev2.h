@@ -67,7 +67,7 @@
  */
 #define VIDEO_MAX_FRAME               32
 
-
+//1195724874 MJPEG
 /* These defines are V4L1 specific and should not be used with the V4L2 API!
    They will be removed from this header in the future. */
 
