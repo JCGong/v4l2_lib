@@ -67,6 +67,7 @@ int jc_v4l2_set_output_index(int fd, u32 index);
 void jc_v4l2_query_current_input_standard(int fd, u32 index);
 int enum_frame_formats(int fd);
 void yuyv_to_rgb(unsigned char* yuv,unsigned char* rgb);
+int jc_v4l2_show_camera_image(int fd);
 
 
 

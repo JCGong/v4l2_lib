@@ -17,6 +17,7 @@
 #include <linux/videodev2.h>
 
 #include "v4l2_operation_lib.h"
+#include "pic.h"
 
 struct mjpeg_size_t
 {
@@ -25,7 +26,7 @@ struct mjpeg_size_t
 };
 
 struct buffer *buffers;
-struct mjpeg_size_t mjpeg_size = {640,480};
+struct mjpeg_size_t mjpeg_size = {320,240};
 
 int file_fd = 0;
 int fd = 0;
@@ -49,6 +50,8 @@ int main (int argc,char **argv)
 	}
 
 	file_fd = open(mjpeg_name, O_RDWR | O_CREAT, 0777);
+	fbmem = open_framebuffer();//framebuffer的地址 
+
 	//查询设置支持的操作
 	jc_v4l2_query_capability_info(fd);
 	//查询设备支持的帧格式
@@ -83,8 +86,10 @@ int main (int argc,char **argv)
 	jc_v4l2_init_mmap(fd, buf_count, buffers);
 	//开始数据抓取
 	jc_v4l2_start_capturing(fd, buf_count);
-	//数据处理(抓取一张jpg的图片)
-	jc_v4l2_capture_mjpeg(fd, buffers, file_fd);
+
+	//在屏幕上显示摄像头数据
+	while(1)
+		jc_v4l2_show_camera_image(fd);
 
 	//停止数据抓取
 	jc_v4l2_stop_capturing(fd);

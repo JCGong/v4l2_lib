@@ -16,6 +16,7 @@
 #include <linux/videodev2.h>
 
 #include "v4l2_operation_lib.h"
+#include "pic.h"
 
 struct buffer *tempbuffers;
 
@@ -737,6 +738,43 @@ int jc_v4l2_capture_mjpeg(int fd, struct buffer *buffers, int file_fd)
 	return JC_SUCCESS;
 }
 
+int jc_v4l2_show_camera_image(int fd)
+{
+	struct v4l2_buffer buf;
+	unsigned char *buffer_565;
+	rgb24_type rgbinfo;
+	int ret = -1;
+	fd_set fds;
+	FD_ZERO (&fds);
+	FD_SET (fd, &fds);
+
+	init_data(&rgbinfo);
+	rgbinfo.scale_num = 1;
+	rgbinfo.scale_denom = 2;
+
+	ret = select(fd + 1, &fds, NULL, NULL, NULL);
+	if (ret < 0)
+		errno_exit("select error");
+	/*帧出列*/
+	buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+	buf.memory = V4L2_MEMORY_MMAP;
+	if (ioctl (fd, VIDIOC_DQBUF, &buf) < 0)
+		errno_exit("read image data error");
+	//将数据显示到屏幕
+	if (jpeg_to_rgb24_from_mem(tempbuffers[buf.index].start,tempbuffers[buf.index].length,&rgbinfo) == -1)
+		printf("jpeg_to_rgb24_from_mem error\n");
+	buffer_565 = RGB888toRGB565(rgbinfo.buffer_24,rgbinfo.width,rgbinfo.height) ;//解码好的数据的地址 
+	show_jpeg(buffer_565, rgbinfo.width, rgbinfo.height, 10, 0);
+	free(buffer_565); 
+	if (rgbinfo.buffer_24)
+		free(rgbinfo.buffer_24);
+	/*buf入列*/
+	if (ioctl(fd, VIDIOC_QBUF, &buf) < 0)
+		errno_exit("VIDIOC_QBUF");
+
+	return JC_SUCCESS;
+}
+
 void jc_v4l2_close(int fd)
 {
 	close(fd);
@@ -887,5 +925,7 @@ void rgb_to_bmp(unsigned char* pdata, FILE* bmp_fd)
     fwrite(&bih, sizeof(BMPINFOHEADER_T), 1, bmp_fd);    
     fwrite(pdata, size, 1, bmp_fd);     
 }*/
+
+
 
 

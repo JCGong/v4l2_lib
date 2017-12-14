@@ -1,3 +1,5 @@
----- HEIGHT Matches (2 in 2 files) ----
-V4l2_operation_lib.c (z:\v4l2_lib):    for(i = 0; i <= (WIDTH * HEIGHT) / 2 ;i++)  
-V4l2_operation_lib.h (z:\v4l2_lib):#define HEIGHT 240
+---- jpeg_size Matches (4 in 1 files) ----
+Pic.c (z:\v4l2_lib):    long jpeg_size;  
+Pic.c (z:\v4l2_lib):    jpeg_mem_dest(&jcs, jpeg, &jpeg_size);//就是这个函数！！！！！！！  
+Pic.c (z:\v4l2_lib):    fwrite(jpeg, jpeg_size, 1, jpeg_fd);  
+Pic.c (z:\v4l2_lib):    return jpeg_size;  

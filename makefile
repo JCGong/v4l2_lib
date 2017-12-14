@@ -1,20 +1,20 @@
 .PHONY:clean
 
-obj=v4l2_operation_lib.o main.o
-exe=v4l2_operation_test
+#obj=displayjpeg.o
+obj=v4l2_operation_lib.o main.o pic.o
+exe=main
 
 CC=arm-linux-gcc
 
 #CC=arm-linux-gnueabihf-gcc
-LFLAGS=-c
-LDFLAGS=
+CFLAGS=-I./jpeglib/include	
+LDFLAGS= -L./jpeglib/lib -ljpeg 
 
 $(exe):$(obj)
-	$(CC) $(LDFLAGS) $^ -o $@
-	
-%.o:%.c %.h
-	$(CC) $(LFLAGS) $^
-	
-clean:
-	-rm -v *.o $(exe)
+	@$(CC) -static $^ -o $@ $(LDFLAGS)
 
+%.o:%.c %.h
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	@-rm -v *.o $(exe)
